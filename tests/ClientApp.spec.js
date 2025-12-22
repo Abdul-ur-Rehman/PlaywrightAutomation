@@ -35,7 +35,7 @@ test("Browser Context Playwright Test", async ({ page }) => {
   }
 
   await page.locator("[routerlink*=cart]").click();
-  await page.locator("div li").first().waitFor();
+  await page.locator("h3:has-text('ADIDAS ORIGINAL')").first().waitFor();
   const bool = await page.locator("h3:has-text('ADIDAS ORIGINAL')").isVisible();
   expect(bool).toBeTruthy();
 
