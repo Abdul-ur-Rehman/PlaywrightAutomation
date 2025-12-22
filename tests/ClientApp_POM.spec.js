@@ -9,7 +9,7 @@ import { OrderDetailsPage } from "../pages/OrderDetailsPage";
 
 
 
-test.only("Browser Context Playwright Test", async ({ page }) => {
+test("Browser Context Playwright Test", async ({ page }) => {
 
   const email = "abdurrehman@dummy.com";
   const name = "Abdul-ur-Rehman"
