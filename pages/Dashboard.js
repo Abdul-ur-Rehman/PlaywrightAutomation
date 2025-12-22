@@ -1,5 +1,9 @@
 export class Dashboard {
+
+
   constructor(page) {
+
+    
     this.page = page;
     this.productCardsLoc = page.locator(".card-body");
     this.CartLoc = page.locator("[routerlink*=cart]");

@@ -1,27 +1,40 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/LoginPage";
-import { Dashboard } from "../pages/Dashboard";
 
+test("Browser Context Playwright Test", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
 
-
-test.only("Browser Context Playwright Test", async ({ page }) => {
-
+  // const firstName = page.locator("#firstName")
+  // const lastName = page.locator("#lastName")
   const email = "abdurrehman@dummy.com";
-  const password = "Dummy@123"
   const productName = "ADIDAS ORIGINAL";
+  const productCards = page.locator(".card-body");
+  const emailLoc = page.locator("#userEmail");
+  // const mobile = page.locator("userMobile")
+  const password = page.locator("#userPassword");
+  const loginBtn = page.locator("#login");
 
-  const loginPage =  new LoginPage(page);
-  await loginPage.goTo()
-  await loginPage.validLogin(email, password)
+  // await page.locator(".login-wrapper-footer-text").click()
+  // await firstName.fill("Abdur")
+  // await lastName.fill("Rehman")
+  await emailLoc.fill("abdurrehman@dummy.com");
+  // await mobile.fill("090078601")
+  await password.fill("Dummy@123");
+  await loginBtn.click();
+
   await page.waitForLoadState("networkidle");
 
+  const productsCount = await productCards.count();
+  console.log(productsCount);
 
-  const dashboard = new Dashboard(page)
+  for (let i = 0; i < productsCount; i++) {
+    const prodName = await productCards.nth(i).locator("b").textContent();
+    if (prodName === productName) {
+      await productCards.nth(i).locator("text= Add To Cart").click();
+      break;
+    }
+  }
 
-  await dashboard.searchProductAddToCart(productName)
-
-  await dashboard.navigateToCart()
-
+  await page.locator("[routerlink*=cart]").click();
   await page.locator("h3:has-text('ADIDAS ORIGINAL')").first().waitFor();
   const bool = await page.locator("h3:has-text('ADIDAS ORIGINAL')").isVisible();
   expect(bool).toBeTruthy();
