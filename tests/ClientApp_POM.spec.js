@@ -3,6 +3,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { Dashboard } from "../pages/Dashboard";
 import { CartPage } from "../pages/CartPage";
 import { CheckoutPage } from "../pages/CheckoutPage";
+import { ThankYouPage } from "../pages/ThankYouPage";
 
 
 
@@ -44,12 +45,15 @@ test.only("Browser Context Playwright Test", async ({ page }) => {
   await checkoutPage.selectCountry("Pakistan")
   await checkoutPage.placeOrder()
 
-await expect(page.locator(".hero-primary")).toHaveText(" Thankyou for the order. ")
+  const thankYouPage = new ThankYouPage(page)
 
-const orderID = await page.locator(".em-spacer-1 .ng-star-inserted").textContent()
-console.log(orderID)
+  await thankYouPage.verifyOrderPlacement()
 
-await page.locator("button[routerlink*='/myorders']").click()
+  const orderID = await thankYouPage.getOrderIdOnThankyouPage()
+  console.log(orderID)
+
+  await thankYouPage.navigateToMyOrdersPage()
+
 
 const orderRows = await page.locator("tbody tr")
 await page.locator("tbody").waitFor();
