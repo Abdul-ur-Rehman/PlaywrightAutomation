@@ -8,8 +8,9 @@ test.beforeAll(async ({ browser }) => {
   const page = await context.newPage();
   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
   const password = page.locator("#userPassword");
-  const loginBtn = page.locator("#login");
   const emailLoc = page.locator("#userEmail");
+  const loginBtn = page.locator("#login");
+  
 
   await emailLoc.pressSequentially("abdurrehman@dummy.com")
   await password.fill("Dummy@123");
