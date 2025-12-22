@@ -42,7 +42,7 @@ test("Browser Context Playwright Test", async () => {
   }
 
   await page.locator("[routerlink*=cart]").click();
-  await page.locator("div li").last().waitFor();
+  await page.locator("div li").first().waitFor();
   const bool = await page.locator("h3:has-text('ADIDAS ORIGINAL')").isVisible();
   expect(bool).toBeTruthy();
 
