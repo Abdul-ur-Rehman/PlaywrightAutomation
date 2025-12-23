@@ -1,5 +1,6 @@
 import { test, expect, request } from "@playwright/test";
-import { ApiUtils } from "./utils/ApiUtils";
+import { ApiUtils } from "../utils/ApiUtils";
+
 
 // variables
 const loginPayLoad = {
