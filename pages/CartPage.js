@@ -11,7 +11,7 @@ export class CartPage{
 
     async verifyVisibilityOfCartedProduct(productName){
 
-        await this.getProductLocator(productName).first().waitFor(); 
+        await this.getProductLocator(productName).waitFor(); 
         const bool = await this.getProductLocator(productName).isVisible();
         expect(bool).toBeTruthy();
     }
