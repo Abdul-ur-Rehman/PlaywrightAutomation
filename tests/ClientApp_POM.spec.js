@@ -6,10 +6,13 @@ import { CheckoutPage } from "../pages/CheckoutPage";
 import { ThankYouPage } from "../pages/ThankYouPage";
 import { MyOrdersPage } from "../pages/MyOrdersPage";
 import { OrderDetailsPage } from "../pages/OrderDetailsPage";
+import { POManager } from "../pages/POManager";
 
 
 
 test("Browser Context Playwright Test", async ({ page }) => {
+
+  const poManger = new POManager(page)
 
   const email = "abdurrehman@dummy.com";
   const name = "Abdul-ur-Rehman"
@@ -17,19 +20,19 @@ test("Browser Context Playwright Test", async ({ page }) => {
   const password = "Dummy@123"
   const productName = "ADIDAS ORIGINAL";
 
-  const loginPage =  new LoginPage(page);
+  const loginPage =  poManger.getLoginPage()
   await loginPage.goTo()
   await loginPage.validLogin(email, password)
   await page.waitForLoadState("networkidle");
 
 
-  const dashboard = new Dashboard(page)
+  const dashboard = poManger.getDashboard()
 
   await dashboard.searchProductAddToCart(productName)
 
   await dashboard.navigateToCart()
 
-  const cartPage = new CartPage(page)  
+  const cartPage = poManger.getCartPage()
 
   const prodVisibility = await cartPage.verifyVisibilityOfCartedProduct()
   console.log(prodVisibility)
@@ -37,7 +40,7 @@ test("Browser Context Playwright Test", async ({ page }) => {
 
   await cartPage.navigateToCheckout()
 
-  const checkoutPage = new CheckoutPage(page)
+  const checkoutPage = poManger.getCheckoutPage()
 
   await checkoutPage.enterCVV(cvv)
   await checkoutPage.enterNameOnCard(name)
@@ -47,7 +50,7 @@ test("Browser Context Playwright Test", async ({ page }) => {
   await checkoutPage.selectCountry("Pakistan")
   await checkoutPage.placeOrder()
 
-  const thankYouPage = new ThankYouPage(page)
+  const thankYouPage = poManger.getThankyouPage()
 
   await thankYouPage.verifyOrderPlacement()
 
@@ -56,11 +59,11 @@ test("Browser Context Playwright Test", async ({ page }) => {
 
   await thankYouPage.navigateToMyOrdersPage()
 
-  const myOrdersPage = new MyOrdersPage(page)
+  const myOrdersPage = poManger.getMyOrdersPage()
 
   await myOrdersPage.navigateToOrderDetailsPage(orderID)
 
-  const orderDetailsPage = new OrderDetailsPage(page)
+  const orderDetailsPage = poManger.getOrderDetailsPage()
 
   await orderDetailsPage.verfiyOrderDetailsPageOrderId(orderID)
 
